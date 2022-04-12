@@ -58,6 +58,9 @@ public class EDIFileDataHelperImpl implements EDIFileDataHelper {
         long numberOfMembers = fileSegments.stream().filter(segment -> segment.startsWith("INS")).count();
         //log.info("Total functional groups:{}", numberOfFunctionalGroups);
 
+        // Transaction sequence of the transaction in the file
+        int transactionSequence = 0;
+
         // This will contain all the segments within the GS - GE Segments
         List<String> functionalGroupSegments = null;
 
@@ -93,8 +96,13 @@ public class EDIFileDataHelperImpl implements EDIFileDataHelper {
                     functionalGroupSegments.add(segment);
                     // Get the total number of transactions that are present within this GS-GE
                     String groupTransactionCount = elements[1];
+                    // For the first functional group in the file the transaction sequence will be sent as zero
                     FunctionalGroup functionalGroup = functionalGroupDataHelper.createFunctionalGroup(functionalGroupSegments,
-                            Integer.parseInt(groupTransactionCount));
+                            transactionSequence);
+                    // Once the first functional group is created all transactions would have been created
+                    // So the transaction sequence will be updated to the total number of transactions in the
+                    // previous functional group to keep a running count
+                    transactionSequence = transactionSequence + Integer.parseInt(groupTransactionCount);
                     interchange.getFunctionalGroupSet().add(functionalGroup);
                     processingGS = false;
                 }else{
