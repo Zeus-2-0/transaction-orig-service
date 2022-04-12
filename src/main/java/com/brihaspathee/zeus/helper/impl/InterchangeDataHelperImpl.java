@@ -23,6 +23,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class InterchangeDataHelperImpl implements InterchangeDataHelper {
+
+    /**
+     * The method to populate the interchange header values
+     * @param interchange
+     * @param segment
+     * @return
+     */
     @Override
     public Interchange populateInterchangeHeader(Interchange interchange, String segment) {
         List<String> elements = new ArrayList<String>(Arrays.asList(segment.split("\\*")));
@@ -45,6 +52,12 @@ public class InterchangeDataHelperImpl implements InterchangeDataHelper {
         return interchange;
     }
 
+    /**
+     * The method to populate the interchange trailer values
+     * @param interchange
+     * @param segment
+     * @return
+     */
     @Override
     public Interchange populateInterchangeTrailer(Interchange interchange, String segment) {
         List<String> elements = new ArrayList<String>(Arrays.asList(segment.split("\\*")));
