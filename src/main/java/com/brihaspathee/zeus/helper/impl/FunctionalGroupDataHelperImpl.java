@@ -65,7 +65,7 @@ public class FunctionalGroupDataHelperImpl implements FunctionalGroupDataHelper 
                 // This part of the code will be executed if we are starting off with a new transaction (ST_
                 // or we are currently in the middle of collecting all the
                 // segments within the respective transaction (ST)
-                if(segmentName.equals("GS")){
+                if(segmentName.equals("ST")){
                     // This means we are starting the ST segment so initialize the transaction segment list
                     // and add the first segment
                     transactionSegments = new ArrayList<>(Arrays.asList(functionalGroupSegment));

@@ -31,5 +31,6 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
     public void processFileData(String fileData) {
         List<String> fileSegments = new ArrayList<>(Arrays.asList(fileData.split("~")));
         Interchange interchange = ediFileDataHelper.processEDIFileData(fileSegments);
+        log.info("Interchange Info:{}", interchange);
     }
 }
