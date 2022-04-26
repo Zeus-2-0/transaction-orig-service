@@ -1,6 +1,8 @@
 package com.brihaspathee.zeus.helper.impl;
 
+import com.brihaspathee.zeus.edi.models.enrollment.Loop1000;
 import com.brihaspathee.zeus.edi.models.enrollment.Transaction;
+import com.brihaspathee.zeus.helper.interfaces.Loop1000DataHelper;
 import com.brihaspathee.zeus.helper.interfaces.TransactionHeaderHelper;
 import com.brihaspathee.zeus.helper.interfaces.TransactionHelper;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,12 @@ public class TransactionHelperImpl implements TransactionHelper {
      * Popualte the transaction header details
      */
     private final TransactionHeaderHelper transactionHeaderHelper;
+
+    /**
+     * Populate the details of Loop1000
+     */
+    private final Loop1000DataHelper loop1000DataHelper;
+
     /**
      * This method takes the list of all the segments in a transaction
      * and creates a transaction object
@@ -96,6 +104,10 @@ public class TransactionHelperImpl implements TransactionHelper {
             }
         }
         Transaction transaction = transactionHeaderHelper.createTransactionHeader(transactionHeaderSegments);
+        Loop1000 loop1000Values = loop1000DataHelper.populateLoop1000(loop1000Segments);
+        transaction.setBrokers(loop1000Values.getBrokers());
+        transaction.setSponsor(loop1000Values.getSponsor());
+        transaction.setPayer(loop1000Values.getPayer());
 
         return transaction;
     }

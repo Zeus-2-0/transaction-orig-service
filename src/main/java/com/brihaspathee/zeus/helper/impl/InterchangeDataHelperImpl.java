@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class InterchangeDataHelperImpl implements InterchangeDataHelper {
+public class                 InterchangeDataHelperImpl implements InterchangeDataHelper {
 
     /**
      * The method to populate the interchange header values
