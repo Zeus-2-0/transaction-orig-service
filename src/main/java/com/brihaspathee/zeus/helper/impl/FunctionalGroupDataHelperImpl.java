@@ -114,27 +114,35 @@ public class FunctionalGroupDataHelperImpl implements FunctionalGroupDataHelper 
             switch (gsElement){
                 case 1:
                     functionalGroup.setGs01(elementValue);
+                    gsElement++;
                     break;
                 case 2:
                     functionalGroup.setGs02(elementValue);
+                    gsElement++;
                     break;
                 case 3:
                     functionalGroup.setGs03(elementValue);
+                    gsElement++;
                     break;
                 case 4:
                     functionalGroup.setGs04(elementValue);
+                    gsElement++;
                     break;
                 case 5:
                     functionalGroup.setGs05(elementValue);
+                    gsElement++;
                     break;
                 case 6:
                     functionalGroup.setGs06(elementValue);
+                    gsElement++;
                     break;
                 case 7:
                     functionalGroup.setGs07(elementValue);
+                    gsElement++;
                     break;
                 case 8:
                     functionalGroup.setGs08(elementValue);
+                    gsElement++;
                     break;
                 default:
                     gsElement++;
@@ -148,6 +156,7 @@ public class FunctionalGroupDataHelperImpl implements FunctionalGroupDataHelper 
      * @param geSegment
      */
     private void populateFunctionalTrailer(FunctionalGroup functionalGroup, String geSegment){
+        log.info("GE Segment:{}", geSegment);
         // Get individual list of elements
         List<String> gsElements = new ArrayList<String>(Arrays.asList(geSegment.split("\\*")));
         Iterator<String> iterator = gsElements.iterator();
@@ -157,9 +166,11 @@ public class FunctionalGroupDataHelperImpl implements FunctionalGroupDataHelper 
             switch (geElement){
                 case 1:
                     functionalGroup.setGe01(elementValue);
+                    geElement++;
                     break;
                 case 2:
                     functionalGroup.setGe02(elementValue);
+                    geElement++;
                     break;
                 default:
                     geElement++;
