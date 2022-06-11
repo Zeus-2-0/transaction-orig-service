@@ -25,8 +25,8 @@ public class AMTSegmentHelperImpl implements AMTSegmentHelper {
 
     /**
      * Populates and creates the AMT Segment
-     * @param amtSegmentElements
-     * @return
+     * @param amtSegmentElements list of amt elements
+     * @return AMT
      */
     @Override
     public AMT populateAMTSegment(List<String> amtSegmentElements) {
