@@ -19,16 +19,16 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@Entity
+//@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Transaction")
+//@Table(name = "Transaction")
 public class Transaction {
 
-    @Id
+/*    @Id
     @GeneratedValue(generator = "UUID")
     @Type(type = "uuid-char")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "account_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    @Column(name = "account_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)*/
     private UUID accountSK;
 }
