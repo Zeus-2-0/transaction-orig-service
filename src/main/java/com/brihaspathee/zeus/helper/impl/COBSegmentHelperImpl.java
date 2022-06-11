@@ -23,8 +23,8 @@ public class COBSegmentHelperImpl implements COBSegmentHelper {
 
     /**
      * Creates and populates the COB Segment
-     * @param cobElements
-     * @return
+     * @param cobElements cob elements
+     * @return COB object
      */
     @Override
     public COB populateCOBSegment(List<String> cobElements) {

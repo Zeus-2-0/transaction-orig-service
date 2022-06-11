@@ -24,8 +24,8 @@ public class DMGSegmentHelperImpl implements DMGSegmentHelper {
 
     /**
      * Populates and creates DMG Segment
-     * @param dmgSegmentElements
-     * @return
+     * @param dmgSegmentElements dmg segment elements
+     * @return DMG
      */
     @Override
     public DMG populateDMGSegment(List<String> dmgSegmentElements) {
@@ -79,8 +79,8 @@ public class DMGSegmentHelperImpl implements DMGSegmentHelper {
 
     /**
      * Race and ethnicity code comes as composite elements in the EDI file
-     * @param elementValue
-     * @return
+     * @param elementValue value of the race and ethnicity code
+     * @return set of race codes
      */
     private Set<String> getRaceEthnicityCodes(String elementValue) {
         List<String> raceAndEthnicityCodes = new ArrayList<String>(Arrays.asList(elementValue.split(":")));

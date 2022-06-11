@@ -26,9 +26,9 @@ import java.util.List;
 public class ACTSegmentHelperImpl implements ACTSegmentHelper {
 
     /**
-     * Method to populate the ACT Segment
-     * @param actSegmentElements
-     * @return
+     * Method to populate the ACT object
+     * @param actSegmentElements act segment elements
+     * @return ACT Object
      */
     @Override
     public ACT populateACTSegment(List<String> actSegmentElements) {
