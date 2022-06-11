@@ -25,11 +25,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DTPSegmentHelperImpl implements DTPSegmentHelper {
     @Override
-    public DTP populateDTPSegment(String dtpSegment) {
+    public DTP populateDTPSegment(List<String> dtpSegmentElements) {
         DTP dtp = DTP.builder().build();
-        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(dtpSegment.split("\\*")));
+//        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(dtpSegment.split("\\*")));
         //log.info("Begin Segment:{}", segmentDetails);
-        Iterator<String> iterator = segmentDetails.iterator();
+        Iterator<String> iterator = dtpSegmentElements.iterator();
         int element = 0;
         while (iterator.hasNext()) {
             String elementValue = iterator.next();

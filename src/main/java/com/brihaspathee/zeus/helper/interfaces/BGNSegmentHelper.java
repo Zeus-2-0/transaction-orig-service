@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.edi.models.common.BGN;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -13,5 +15,5 @@ import com.brihaspathee.zeus.edi.models.common.BGN;
  */
 public interface BGNSegmentHelper {
 
-    BGN populateBeginSegment(String bgnSegment);
+    BGN populateBeginSegment(List<String> bgnSegmentElements);
 }

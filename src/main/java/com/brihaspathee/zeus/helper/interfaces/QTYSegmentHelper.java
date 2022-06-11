@@ -3,6 +3,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 import com.brihaspathee.zeus.edi.models.common.DTP;
 import com.brihaspathee.zeus.edi.models.common.QTY;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -13,5 +15,5 @@ import com.brihaspathee.zeus.edi.models.common.QTY;
  * To change this template use File | Settings | File and Code Template
  */
 public interface QTYSegmentHelper {
-    QTY populateQTYSegment(String qtySegment);
+    QTY populateQTYSegment(List<String> qtySegmentElements);
 }

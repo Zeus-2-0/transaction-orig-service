@@ -74,19 +74,19 @@ public class TransactionHeaderHelperImpl implements TransactionHeaderHelper {
                 populateTransactionTrailer(transaction, elements);
             }else if(segmentName.equals("BGN")){
                 // Populate the details of the BGN segment
-                BGN bgn = bgnSegmentHelper.populateBeginSegment(transactionHeaderSegment);
+                BGN bgn = bgnSegmentHelper.populateBeginSegment(elements);
                 transaction.setBeginningSegment(bgn);
             }else if(segmentName.equals("REF")){
                 // Populate the details of the REF Segment
-                REF transactionSetPolicyNumber = refSegmentHelper.populateREFSegment(transactionHeaderSegment);
+                REF transactionSetPolicyNumber = refSegmentHelper.populateREFSegment(elements);
                 transaction.setTransactionSetPolicyNumber(transactionSetPolicyNumber);
             }else if(segmentName.equals("DTP")){
                 // Populate the details of the DTP Segments
-                DTP fileEffectiveDate = dtpSegmentHelper.populateDTPSegment(transactionHeaderSegment);
+                DTP fileEffectiveDate = dtpSegmentHelper.populateDTPSegment(elements);
                 transaction.getFileEffectiveDates().add(fileEffectiveDate);
             }else if(segmentName.equals("QTY")){
                 // Populate the details of the QTY segments
-                QTY transactionSetControls = qtySegmentHelper.populateQTYSegment(transactionHeaderSegment);
+                QTY transactionSetControls = qtySegmentHelper.populateQTYSegment(elements);
                 transaction.getTransactionSetControls().add(transactionSetControls);
             }
         }

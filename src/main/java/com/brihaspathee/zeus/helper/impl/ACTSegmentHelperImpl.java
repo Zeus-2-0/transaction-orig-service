@@ -27,16 +27,16 @@ public class ACTSegmentHelperImpl implements ACTSegmentHelper {
 
     /**
      * Method to populate the ACT Segment
-     * @param actSegment
+     * @param actSegmentElements
      * @return
      */
     @Override
-    public ACT populateACTSegment(String actSegment) {
+    public ACT populateACTSegment(List<String> actSegmentElements) {
         ACT act = ACT.builder().build();
         // Get the individual elements of the account
-        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(actSegment.split("\\*")));
+//        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(actSegment.split("\\*")));
         //log.info("Begin Segment:{}", segmentDetails);
-        Iterator<String> iterator = segmentDetails.iterator();
+        Iterator<String> iterator = actSegmentElements.iterator();
         int element = 0;
         // Iterate through individual elements
         // As per 834 Implementation guide only element 1 and element 6 will be populated

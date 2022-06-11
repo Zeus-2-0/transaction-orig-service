@@ -25,11 +25,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class REFSegmentHelperImpl implements REFSegmentHelper {
     @Override
-    public REF populateREFSegment(String refSegment) {
+    public REF populateREFSegment(List<String> refSegmentElements) {
         REF ref = REF.builder().build();
-        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(refSegment.split("\\*")));
+//        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(refSegment.split("\\*")));
         //log.info("Begin Segment:{}", segmentDetails);
-        Iterator<String> iterator = segmentDetails.iterator();
+        Iterator<String> iterator = refSegmentElements.iterator();
         int element = 0;
         while (iterator.hasNext()) {
             String elementValue = iterator.next();

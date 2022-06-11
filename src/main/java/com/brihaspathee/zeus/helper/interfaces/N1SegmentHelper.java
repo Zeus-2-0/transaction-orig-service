@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.edi.models.common.N1;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -13,5 +15,5 @@ import com.brihaspathee.zeus.edi.models.common.N1;
  */
 public interface N1SegmentHelper {
 
-    N1 populateN1Segment(String n1Segment);
+    N1 populateN1Segment(List<String> n1SegmentElements);
 }

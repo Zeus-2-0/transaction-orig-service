@@ -25,11 +25,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BGNSegmentHelperImpl implements BGNSegmentHelper {
     @Override
-    public BGN populateBeginSegment(String bgnSegment) {
+    public BGN populateBeginSegment(List<String> bgnSegmentElements) {
         BGN beginSegment = BGN.builder().build();
-        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(bgnSegment.split("\\*")));
+//        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(bgnSegment.split("\\*")));
         //log.info("Begin Segment:{}", segmentDetails);
-        Iterator<String> iterator = segmentDetails.iterator();
+        Iterator<String> iterator = bgnSegmentElements.iterator();
         int element = 0;
         while (iterator.hasNext()){
             String elementValue = iterator.next();
