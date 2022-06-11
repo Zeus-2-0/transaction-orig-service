@@ -1,8 +1,10 @@
 package com.brihaspathee.zeus.helper.impl;
 
 import com.brihaspathee.zeus.edi.models.enrollment.Loop1000;
+import com.brihaspathee.zeus.edi.models.enrollment.Loop2000;
 import com.brihaspathee.zeus.edi.models.enrollment.Transaction;
 import com.brihaspathee.zeus.helper.interfaces.Loop1000DataHelper;
+import com.brihaspathee.zeus.helper.interfaces.Loop2000DataHelper;
 import com.brihaspathee.zeus.helper.interfaces.TransactionHeaderHelper;
 import com.brihaspathee.zeus.helper.interfaces.TransactionHelper;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -36,6 +39,11 @@ public class TransactionHelperImpl implements TransactionHelper {
      * Populate the details of Loop1000
      */
     private final Loop1000DataHelper loop1000DataHelper;
+
+    /**
+     * Populates the details of Loop2000
+     */
+    private final Loop2000DataHelper loop2000DataHelper;
 
     /**
      * This method takes the list of all the segments in a transaction
@@ -108,6 +116,8 @@ public class TransactionHelperImpl implements TransactionHelper {
         transaction.setBrokers(loop1000Values.getBrokers());
         transaction.setSponsor(loop1000Values.getSponsor());
         transaction.setPayer(loop1000Values.getPayer());
+        Set<Loop2000> memberInfoSet = loop2000DataHelper.populateMembers(memberSegments);
+        transaction.setMembers(memberInfoSet);
 
         return transaction;
     }

@@ -48,28 +48,28 @@ public class Loop1000DataHelperImpl implements Loop1000DataHelper {
             // Check if the segment is a broker account segment
             // Assumption here is that the broker loop would have already been build if an ACT is reached
             if(segmentName.equals("ACT")){
-                ACT brokerAccount = actSegmentHelper.populateACTSegment(loop1000Segment);
+                ACT brokerAccount = actSegmentHelper.populateACTSegment(elements);
                 Loop1100C account = Loop1100C.builder()
                         .brokerAccount(brokerAccount)
                         .build();
                 brokerLoop.setAccountDetails(account);
             }else if(entityCode.equals("P5")){
                 // P5 is the sponsor information
-                N1 sponsor = n1SegmentHelper.populateN1Segment(loop1000Segment);
+                N1 sponsor = n1SegmentHelper.populateN1Segment(elements);
                 Loop1000A sponsorLoop = Loop1000A.builder()
                         .sponsor(sponsor)
                         .build();
                 loop1000.setSponsor(sponsorLoop);
             }else if(entityCode.equals("IN")){
                 // IN is the payer information
-                N1 payer = n1SegmentHelper.populateN1Segment(loop1000Segment);
+                N1 payer = n1SegmentHelper.populateN1Segment(elements);
                 Loop1000B payerLoop = Loop1000B.builder()
                         .payer(payer)
                         .build();
                 loop1000.setPayer(payerLoop);
             }else if(entityCode.equals("TV") || entityCode.equals("BO")){
                 // The broker comes with entity code TV or B0
-                N1 broker = n1SegmentHelper.populateN1Segment(loop1000Segment);
+                N1 broker = n1SegmentHelper.populateN1Segment(elements);
                 // Create the broker loop to set the broker information
                 brokerLoop = Loop1000C.builder().build();
                 brokerLoop.setBroker(broker);

@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.edi.models.common.ACT;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -13,5 +15,5 @@ import com.brihaspathee.zeus.edi.models.common.ACT;
  */
 public interface ACTSegmentHelper {
 
-    ACT populateACTSegment(String actSegment);
+    ACT populateACTSegment(List<String> actSegmentElements);
 }

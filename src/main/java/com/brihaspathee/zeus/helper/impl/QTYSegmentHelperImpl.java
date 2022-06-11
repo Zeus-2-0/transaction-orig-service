@@ -27,11 +27,11 @@ import java.util.List;
 public class QTYSegmentHelperImpl implements QTYSegmentHelper {
 
     @Override
-    public QTY populateQTYSegment(String qtySegment) {
+    public QTY populateQTYSegment(List<String> qtySegmentElements) {
         QTY qty = QTY.builder().build();
-        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(qtySegment.split("\\*")));
+//        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(qtySegment.split("\\*")));
         //log.info("Begin Segment:{}", segmentDetails);
-        Iterator<String> iterator = segmentDetails.iterator();
+        Iterator<String> iterator = qtySegmentElements.iterator();
         int element = 0;
         while (iterator.hasNext()) {
             String elementValue = iterator.next();

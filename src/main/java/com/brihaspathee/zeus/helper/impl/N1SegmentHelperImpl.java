@@ -27,16 +27,16 @@ public class N1SegmentHelperImpl implements N1SegmentHelper {
 
     /**
      * The method to populate the N1 Segment
-     * @param n1Segment
+     * @param n1SegmentElements
      * @return
      */
     @Override
-    public N1 populateN1Segment(String n1Segment) {
+    public N1 populateN1Segment(List<String> n1SegmentElements) {
         N1 n1 = N1.builder().build();
         // Get the individual elements
-        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(n1Segment.split("\\*")));
+//        List<String> segmentDetails = new ArrayList<String>(Arrays.asList(n1Segment.split("\\*")));
         //log.info("Begin Segment:{}", segmentDetails);
-        Iterator<String> iterator = segmentDetails.iterator();
+        Iterator<String> iterator = n1SegmentElements.iterator();
         int element = 0;
         // Iterate through each element and populate the N1 object
         while (iterator.hasNext()){

@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.edi.models.common.DTP;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -13,5 +15,5 @@ import com.brihaspathee.zeus.edi.models.common.DTP;
  */
 public interface DTPSegmentHelper {
 
-    DTP populateDTPSegment(String dtpSegment);
+    DTP populateDTPSegment(List<String> dtpSegmentElements);
 }

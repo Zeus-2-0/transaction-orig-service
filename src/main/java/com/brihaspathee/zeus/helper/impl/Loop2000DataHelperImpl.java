@@ -1,7 +1,10 @@
 package com.brihaspathee.zeus.helper.impl;
 
-import com.brihaspathee.zeus.edi.models.enrollment.Loop2000;
-import com.brihaspathee.zeus.helper.interfaces.Loop2000DataHelper;
+import com.brihaspathee.zeus.edi.models.common.DTP;
+import com.brihaspathee.zeus.edi.models.common.INS;
+import com.brihaspathee.zeus.edi.models.common.REF;
+import com.brihaspathee.zeus.edi.models.enrollment.*;
+import com.brihaspathee.zeus.helper.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,47 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 @RequiredArgsConstructor
 public class Loop2000DataHelperImpl implements Loop2000DataHelper {
+
+    /**
+     * INS Segment helper that creates the INS object
+     */
+    private final INSSegmentHelper insSegmentHelper;
+
+    /**
+     * REF Segment helper to populate the REF segment object
+     */
+    private final REFSegmentHelper refSegmentHelper;
+
+    /**
+     * DTP Segment helper to populate the DTP Segment Helper
+     */
+    private final DTPSegmentHelper dtpSegmentHelper;
+
+    /**
+     * Populates and created the 2100 loops
+     */
+    private final Loop2100DataHelper loop2100DataHelper;
+
+    /**
+     * Populates and creates the 2200 loop
+     */
+    private final Loop2200DataHelper loop2200DataHelper;
+
+    /**
+     * Populates and creates the 2300 loop
+     */
+    private final Loop2300DataHelper loop2300DataHelper;
+
+    /**
+     * Populates and creates the 2700 loop
+     */
+    private final Loop2700DataHelper loop2700DataHelper;
+
+    /**
+     * NM1 Qualifiers for identifying the appropriate loop 2100
+     */
+    private static final List<String> nm1Qualifiers = Arrays.asList("IL", "70", "31", "36", "M8", "S3", "QD", "6Y",
+            "9K", "E1", "EI", "EXS", "GB", "J6", "LR", "S1", "TZ", "X4", "45");
 
     /**
      * This method gathers all the member details in a transaction and creates a Set
@@ -114,7 +158,119 @@ public class Loop2000DataHelperImpl implements Loop2000DataHelper {
             String segmentName = elements[0];
             // If the segment is NM1, this will have the NM1 qualifier
             String nm1Qualifier = elements[1];
+            // Check if the segment name is equal to NM1
+            if(segmentName.equals("INS")){
+                memberLevelDetail.set(true);
+                // since the member level detail i.e. loop 2000 is being iterated, set the rest of the loops to false
+                loop2100.set(false);
+                loop2200.set(false);
+                loop2300.set(false);
+                loop2700.set(false);
+            }else if (segmentName.equals("NM1") && nm1Qualifiers.contains(nm1Qualifier)){
+                // if the segment is NM1 and the qualifier is one of the ones in the nm1Qualifiers list, then
+                // we are processing one of the loop 2100s (A, B, C, D, E, F, G and H)
+                loop2100.set(true);
+                // set false for rest of the loops
+                memberLevelDetail.set(false);
+                loop2200.set(false);
+                loop2300.set(false);
+                loop2700.set(false);
+
+            }else if(segmentName.equals("DSB")){
+                // if the segment name is DSB then we are processing loop 2200
+                // so loop2100 boolean is set to true
+                loop2200.set(true);
+                // the rest are set to false
+                memberLevelDetail.set(false);
+                loop2100.set(false);
+                loop2300.set(false);
+                loop2700.set(false);
+            }else if (segmentName.equals("HD")){
+                // if the segment name is "HD" then we are processing health coverage loop2300
+                // so loop2300 boolean is set to true
+                loop2300.set(true);
+                // the rest are set to false
+                memberLevelDetail.set(false);
+                loop2100.set(false);
+                loop2200.set(false);
+                loop2700.set(false);
+            }else if (segmentName.equals("LS")){
+                // if the segment name is "LS" then we are processing the reporting categories
+                // so loop2700 is set to true
+                loop2700.set(true);
+                // the rest are set to false
+                memberLevelDetail.set(false);
+                loop2100.set(false);
+                loop2200.set(false);
+                loop2300.set(false);
+            }
+            if(memberLevelDetail.get()){
+                // send each segment of Loop 2000 to this method to create each segment object for the loop
+                populateMemberLevelDetail(memberLoop, elements, segmentName);
+            }else if (loop2100.get()){
+                // Gather all the segments of loop 2100 in a list
+                loop2100Segments.add(memberSegment);
+            }else if (loop2200.get()){
+                // Gather all the segments of loop 2200 in a list
+                loop2200Segments.add(memberSegment);
+            }else if (loop2300.get()){
+                // Gather all the segments of loop 2300 in a list
+                loop2300Segments.add(memberSegment);
+            }else if (loop2700.get()){
+                // Gather all the segments of loop 2700 in a list
+                loop2700Segments.add(memberSegment);
+            }
         }
+        // Collect and populate all the loop 2100s in a object
+        Loop2100 memberData = loop2100DataHelper.populateLoop2100(loop2100Segments);
+        // Get the member demographic information and set it in the member loop
+        memberLoop.setMemberDemographics(memberData.getMemberDemographics());
+        // Get the incorrect member demographic information and set it in the member loop
+        memberLoop.setIncorrectMemberDemographics(memberData.getIncorrectMemberDemographics());
+        // Get the member mailing address and set it in the member loop
+        memberLoop.setMemberMailingAddress(memberData.getMemberMailingAddress());
+        // Get the member employer information and set it in the member loop
+        memberLoop.setEmployers(memberData.getEmployers());
+        // Get the member school information and set it in the member loop
+        memberLoop.setSchools(memberData.getSchools());
+        // Get the custodial parent information and set it in the member loop
+        memberLoop.setCustodialParent(memberData.getCustodialParent());
+        // Get the responsible person information and set it in the member loop
+        memberLoop.setResponsiblePersons(memberData.getResponsiblePersons());
+        // Get the drop off location and set it in the member loop
+        memberLoop.setDropOffLocation(memberData.getDropOffLocation());
+        // Create and populate disability segments if present in the transaction
+        Set<Loop2200> disabilities = loop2200DataHelper.populateDisabilityInformation(loop2200Segments);
+        memberLoop.setDisabilities(disabilities);
+        // Create and populate the health coverage segments
+        Set<Loop2300> healthCoverages = loop2300DataHelper.populatedHealthCoverageSegments(loop2300Segments);
+        memberLoop.setHealthCoverages(healthCoverages);
+        // Create and populate the reporting categories
+        Loop2700 reportingCategories = loop2700DataHelper.populateLoop2700(loop2700Segments);
+        memberLoop.setReportingCategories(reportingCategories);
         return memberLoop;
+    }
+
+    private void populateMemberLevelDetail(Loop2000 memberLoop, String [] segmentElements, String segmentName) {
+        List<String> elements = Arrays.asList(segmentElements);
+        // check if the segment is INS
+        if(segmentName.equals("INS")){
+            INS insured = insSegmentHelper.populateINSSegment(elements);
+            memberLoop.setMemberDetail(insured);
+        }else if (segmentName.equals("REF")){
+            REF ref = refSegmentHelper.populateREFSegment(elements);
+            if(ref.getRef01().equals("0F")){
+                // this is the exchange subscriber id
+                memberLoop.setSubscriberIdentifier(ref);
+            }else if (ref.getRef01().equals("1L")){
+                // this is the member's group policy id
+                memberLoop.setGroupPolicyId(ref);
+            }else{
+                memberLoop.getMemberSupplementalIdentifiers().add(ref);
+            }
+        }else if (segmentName.equals("DTP")){
+            DTP dtp = dtpSegmentHelper.populateDTPSegment(elements);
+            memberLoop.getMemberLevelDates().add(dtp);
+        }
     }
 }
