@@ -27,12 +27,12 @@ public class FileInfoConsumer {
 
     private final FileDataProcessingService fileDataProcessingService;
 
-    @KafkaListener(topics = "ZEUS.FILE.STORAGE.TOPIC",groupId = "trans-orig-group")
+    //@KafkaListener(topics = "ZEUS.FILE.STORAGE.TOPIC",groupId = "trans-orig-group")
     public void consumeFileInfo(String fileInfo) throws JsonProcessingException {
         log.info("Message from the topic: {}", fileInfo);
-        FileDetailDto fileDetail = objectMapper.readValue(fileInfo, FileDetailDto.class);
-        log.info("File Info Detail Object: {}", fileDetail);
-        fileDataProcessingService.processFileData(fileDetail.getFileData());
+        // FileDetailDto fileDetail = objectMapper.readValue(fileInfo, FileDetailDto.class);
+        // log.info("File Info Detail Object: {}", fileDetail);
+        // fileDataProcessingService.processFileData(fileDetail.getFileData());
 
     }
 }

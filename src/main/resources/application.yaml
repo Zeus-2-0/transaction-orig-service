@@ -10,6 +10,8 @@ spring:
     url: jdbc:mysql://localhost:3306/transactionorigdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: transactionorigapp
     password: password
+    hikari:
+      max-lifetime: 600000
   jpa:
     hibernate:
       ddl-auto: validate
