@@ -23,7 +23,7 @@ public class FileDetailDto {
 
     private UUID fileDetailSK;
 
-    private String fileId;
+    private String zeusFileControlNumber;
 
     private String fileName;
 
@@ -47,7 +47,7 @@ public class FileDetailDto {
     public String toString() {
         return "FileDetailDto{" +
                 "fileDetailSK=" + fileDetailSK +
-                ", fileId='" + fileId + '\'' +
+                ", zfcn='" + zeusFileControlNumber + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileReceivedDate=" + fileReceivedDate +
                 ", tradingPartnerId='" + tradingPartnerId + '\'' +

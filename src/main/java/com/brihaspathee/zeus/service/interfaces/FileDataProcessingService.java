@@ -1,5 +1,7 @@
 package com.brihaspathee.zeus.service.interfaces;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -11,5 +13,5 @@ package com.brihaspathee.zeus.service.interfaces;
  */
 public interface FileDataProcessingService {
 
-    void processFileData(String fileData);
+    void processFileData(String fileData) throws JsonProcessingException;
 }
