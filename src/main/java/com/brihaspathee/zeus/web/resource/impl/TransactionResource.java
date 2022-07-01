@@ -47,10 +47,7 @@ public class TransactionResource implements TransactionAPI {
     public ResponseEntity<ZeusApiResponse<FileResponseDto>> postFileDetails(FileDetailDto fileDetailDto) throws JsonProcessingException {
         // fileDataProcessingService.processFileData(fileDetailDto.getFileData());
         log.info("Got the file details:{}", fileDetailDto);
-        fileDataProcessingService.processFileData(fileDetailDto.getFileData());
-        FileResponseDto fileResponseDto = FileResponseDto.builder()
-                .fileReceiptAck("File Receipt Ack")
-                .build();
+        FileResponseDto fileResponseDto =fileDataProcessingService.processFileData(fileDetailDto);
         ZeusApiResponse<FileResponseDto> apiResponse = ZeusApiResponse.<FileResponseDto>builder()
                 .response(fileResponseDto)
                 .message(ApiResponseConstants.SUCCESS)

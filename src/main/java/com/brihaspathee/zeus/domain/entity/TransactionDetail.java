@@ -27,8 +27,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Transaction")
-public class Transaction {
+public class TransactionDetail {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue(generator = "UUID")
     @Type(type = "uuid-char")
@@ -36,92 +39,82 @@ public class Transaction {
     @Column(name = "transaction_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID transactionSK;
 
-    @Column(name = "zfcn")
-    private String zeusFileControlNumber;
+    /**
+     * The functianal group that the transaction is associated with
+     */
+    @ManyToOne
+    @JoinColumn(name = "functional_group_sk")
+    private FunctionalGroupDetail functionalGroup;
 
-    @Column(name = "interchange_control_number")
-    private String interchangeControlNumber;
-
+    /**
+     * The unique control number created for the transaction. This is created by the transaction origination
+     * service and can be used to track the transaction across services. This is a unique id that will not be
+     * repeated for any transactions
+     */
     @Column(name = "ztcn")
     private String zeusTransactionControlNumber;
 
+    /**
+     * The transaction control number received for the transaction in the file
+     */
     @Column(name = "transaction_control_number")
     private String transactionControlNumber;
 
-    @Column(name = "file_sk")
-    private String fileSk;
-
-    @Column(name = "trading_partner_sk")
-    private String tradingPartnerSK;
-
-    @Column(name = "trading_partner_id")
-    private String tradingPartnerId;
-
-    @Column(name = "line_of_business_type_code")
-    private String lineOfBusinessTypeCode;
-
-    @Column(name = "state_type_code")
-    private String stateTypeCode;
-
-    @Column(name = "marketplace_type_code")
-    private String marketplaceTypeCode;
-
-    @Column(name = "interchange_sender_id")
-    private String interchangeSenderId;
-
-    @Column(name = "interchange_receiver_id")
-    private String interchangeReceiverId;
-
-    @Column(name = "group_sender_id")
-    private String groupSenderId;
-
-    @Column(name = "group_receiver_id")
-    private String groupReceiverId;
-
+    /**
+     * The transaction data in JSON format
+     */
     @Lob
     @Column(name = "transaction_data")
     private String transactionData;
 
+    /**
+     * The date the record was created
+     */
     @Column(name = "created_date")
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    /**
+     * The date the record was updated
+     */
     @Column(name = "updated_date")
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
+    /**
+     * The toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "Transaction{" +
                 "transactionSK=" + transactionSK +
-                ", zeusFileControlNumber='" + zeusFileControlNumber + '\'' +
-                ", interchangeControlNumber='" + interchangeControlNumber + '\'' +
+                ", functionalGroup=" + functionalGroup +
                 ", zeusTransactionControlNumber='" + zeusTransactionControlNumber + '\'' +
                 ", transactionControlNumber='" + transactionControlNumber + '\'' +
-                ", fileSk=" + fileSk +
-                ", tradingPartnerSK=" + tradingPartnerSK +
-                ", tradingPartnerId='" + tradingPartnerId + '\'' +
-                ", lineOfBusinessTypeCode='" + lineOfBusinessTypeCode + '\'' +
-                ", stateTypeCode='" + stateTypeCode + '\'' +
-                ", marketplaceTypeCode='" + marketplaceTypeCode + '\'' +
-                ", interchangeSenderId='" + interchangeSenderId + '\'' +
-                ", interchangeReceiverId='" + interchangeReceiverId + '\'' +
-                ", groupSenderId='" + groupSenderId + '\'' +
-                ", groupReceiverId='" + groupReceiverId + '\'' +
                 ", transactionData='" + transactionData + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
     }
 
+    /**
+     * The equals method
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
+        TransactionDetail that = (TransactionDetail) o;
         return transactionSK.equals(that.transactionSK);
     }
 
+    /**
+     * The hash code method
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(transactionSK);
