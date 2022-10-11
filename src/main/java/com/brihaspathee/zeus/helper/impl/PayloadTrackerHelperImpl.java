@@ -35,4 +35,14 @@ public class PayloadTrackerHelperImpl implements PayloadTrackerHelper {
     public PayloadTracker createdPayloadTracker(PayloadTracker payloadTracker) {
         return payloadTrackerRepository.save(payloadTracker);
     }
+
+    /**
+     * Get the payload tracker using the payload id
+     * @param payloadId
+     * @return
+     */
+    @Override
+    public PayloadTracker getPayloadTracker(String payloadId) {
+        return payloadTrackerRepository.findPayloadTrackerByPayloadId(payloadId).orElseThrow();
+    }
 }

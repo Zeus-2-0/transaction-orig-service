@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.broker.producer;
 
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
+import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import com.brihaspathee.zeus.message.MessageMetadata;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
 import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
@@ -48,6 +49,11 @@ public class TransactionPublisher {
      * Object mapper to convert the payload to string
      */
     private final ObjectMapper objectMapper;
+
+    /**
+     * Payload tracker helper instance to create the payload tracker record
+     */
+    private final PayloadTrackerHelper payloadTrackerHelper;
 
     /**
      * Publish the message to Kafka Topic
@@ -105,5 +111,6 @@ public class TransactionPublisher {
                 .sourceDestinations(StringUtils.join(
                         messagePayload.getMessageMetadata().getMessageDestination()))
                 .build();
+        payloadTrackerHelper.createdPayloadTracker(payloadTracker);
     }
 }
