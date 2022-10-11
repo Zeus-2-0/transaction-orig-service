@@ -1,7 +1,9 @@
 package com.brihaspathee.zeus.service.impl;
 
+import com.brihaspathee.zeus.broker.producer.TransactionPublisher;
 import com.brihaspathee.zeus.domain.entity.FunctionalGroupDetail;
 import com.brihaspathee.zeus.domain.entity.InterchangeDetail;
+import com.brihaspathee.zeus.domain.entity.TransactionDetail;
 import com.brihaspathee.zeus.domain.repository.TransactionDetailRepository;
 import com.brihaspathee.zeus.edi.models.common.FunctionalGroup;
 import com.brihaspathee.zeus.edi.models.common.Interchange;
@@ -13,6 +15,7 @@ import com.brihaspathee.zeus.service.interfaces.InterchangeDetailService;
 import com.brihaspathee.zeus.service.interfaces.TransactionDetailService;
 import com.brihaspathee.zeus.web.model.FileDetailDto;
 import com.brihaspathee.zeus.web.model.FileResponseDto;
+import com.brihaspathee.zeus.web.model.RawTransactionDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +63,11 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
     private final TransactionDetailService transactionDetailService;
 
     /**
+     * The kafka producer that will send the transaction to the kafka topic for other services to consume
+     */
+    private final TransactionPublisher transactionPublisher;
+
+    /**
      * This method receives the data of the file in a String and converts that into a
      * Interchange object
      * @param fileDetailDto
@@ -84,10 +92,10 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
             transactions.stream().forEach(transaction -> {
                 // save each of the transactions within each functional group
                 try {
-                    transactionDetailService.saveTransactionDetail(
+                    TransactionDetail transactionDetail = transactionDetailService.saveTransactionDetail(
                             functionalGroupDetail,
-                            transaction
-                    );
+                            transaction);
+                    sendTransactionToConsumers(fileDetailDto, transaction, transactionDetail);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -101,5 +109,26 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
                 .serviceName("TRANS_ORIG_SERVICE")
                 .build();
         return fileResponseDto;
+    }
+
+    /**
+     * Construct the raw transaction dto object and send to publisher to send to kafka
+     * @param fileDetailDto
+     * @param transaction
+     */
+    private void sendTransactionToConsumers(FileDetailDto fileDetailDto,
+                                            Transaction transaction,
+                                            TransactionDetail transactionDetail){
+        RawTransactionDto rawTransactionDto = RawTransactionDto.builder()
+                .transaction(transaction)
+                .ztcn(transactionDetail.getZeusTransactionControlNumber())
+                .zfcn(fileDetailDto.getZeusFileControlNumber())
+                .businessUnitTypeCode("MP_FL")
+                .lineOfBusinessTypeCode(fileDetailDto.getLineOfBusinessTypeCode())
+                .marketplaceTypeCode(fileDetailDto.getMarketplaceTypeCode())
+                .stateTypeCode(fileDetailDto.getStateTypeCode())
+                .tradingPartnerId(fileDetailDto.getTradingPartnerId())
+                .build();
+        transactionPublisher.publishTransaction(rawTransactionDto);
     }
 }
