@@ -118,7 +118,7 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
      */
     private void sendTransactionToConsumers(FileDetailDto fileDetailDto,
                                             Transaction transaction,
-                                            TransactionDetail transactionDetail){
+                                            TransactionDetail transactionDetail) throws JsonProcessingException {
         RawTransactionDto rawTransactionDto = RawTransactionDto.builder()
                 .transaction(transaction)
                 .ztcn(transactionDetail.getZeusTransactionControlNumber())
