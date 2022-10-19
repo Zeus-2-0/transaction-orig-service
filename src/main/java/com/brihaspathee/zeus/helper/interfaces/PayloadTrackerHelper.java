@@ -18,7 +18,7 @@ public interface PayloadTrackerHelper {
      * @param payloadTracker
      * @return
      */
-    PayloadTracker createdPayloadTracker(PayloadTracker payloadTracker);
+    PayloadTracker createPayloadTracker(PayloadTracker payloadTracker);
 
     /**
      * Get the payload tracker using the payload id

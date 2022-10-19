@@ -1,11 +1,11 @@
 package com.brihaspathee.zeus.broker.producer;
 
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
+import com.brihaspathee.zeus.dto.account.RawTransactionDto;
 import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import com.brihaspathee.zeus.message.MessageMetadata;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
 import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
-import com.brihaspathee.zeus.web.model.RawTransactionDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -111,6 +111,6 @@ public class TransactionPublisher {
                 .sourceDestinations(StringUtils.join(
                         messagePayload.getMessageMetadata().getMessageDestination()))
                 .build();
-        payloadTrackerHelper.createdPayloadTracker(payloadTracker);
+        payloadTrackerHelper.createPayloadTracker(payloadTracker);
     }
 }
