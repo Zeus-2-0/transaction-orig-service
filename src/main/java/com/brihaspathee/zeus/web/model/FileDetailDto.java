@@ -37,6 +37,8 @@ public class FileDetailDto {
 
     private String lineOfBusinessTypeCode;
 
+    private String businessUnitTypeCode;
+
     private String marketplaceTypeCode;
 
     private String stateTypeCode;
