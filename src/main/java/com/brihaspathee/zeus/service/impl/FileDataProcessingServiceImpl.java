@@ -123,7 +123,7 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
                 .transaction(transaction)
                 .ztcn(transactionDetail.getZeusTransactionControlNumber())
                 .zfcn(fileDetailDto.getZeusFileControlNumber())
-                .businessUnitTypeCode("MP_FL")
+                .businessUnitTypeCode(fileDetailDto.getBusinessUnitTypeCode())
                 .lineOfBusinessTypeCode(fileDetailDto.getLineOfBusinessTypeCode())
                 .marketplaceTypeCode(fileDetailDto.getMarketplaceTypeCode())
                 .stateTypeCode(fileDetailDto.getStateTypeCode())
