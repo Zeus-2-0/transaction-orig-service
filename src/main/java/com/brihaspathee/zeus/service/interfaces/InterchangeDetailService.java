@@ -1,8 +1,8 @@
 package com.brihaspathee.zeus.service.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.InterchangeDetail;
+import com.brihaspathee.zeus.dto.transaction.FileDetailDto;
 import com.brihaspathee.zeus.edi.models.common.Interchange;
-import com.brihaspathee.zeus.web.model.FileDetailDto;
 
 /**
  * Created in Intellij IDEA

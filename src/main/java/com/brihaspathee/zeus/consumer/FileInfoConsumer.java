@@ -1,12 +1,10 @@
 package com.brihaspathee.zeus.consumer;
 
 import com.brihaspathee.zeus.service.interfaces.FileDataProcessingService;
-import com.brihaspathee.zeus.web.model.FileDetailDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 /**

@@ -20,7 +20,10 @@ public interface TransactionDetailService {
      * Save the details of the transaction
      * @param functionalGroupDetail
      * @param transaction
+     * @param ztcn
      * @return
      */
-    TransactionDetail saveTransactionDetail(FunctionalGroupDetail functionalGroupDetail, Transaction transaction) throws JsonProcessingException;
+    TransactionDetail saveTransactionDetail(FunctionalGroupDetail functionalGroupDetail,
+                                            Transaction transaction,
+                                            String ztcn) throws JsonProcessingException;
 }

@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
-import com.brihaspathee.zeus.web.model.FileDetailDto;
+import com.brihaspathee.zeus.dto.transaction.FileDetailDto;
 import com.brihaspathee.zeus.web.model.FileResponseDto;
 import com.brihaspathee.zeus.web.model.TransactionDto;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;

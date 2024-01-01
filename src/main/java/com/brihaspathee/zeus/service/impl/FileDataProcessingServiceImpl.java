@@ -4,8 +4,8 @@ import com.brihaspathee.zeus.broker.producer.TransactionPublisher;
 import com.brihaspathee.zeus.domain.entity.FunctionalGroupDetail;
 import com.brihaspathee.zeus.domain.entity.InterchangeDetail;
 import com.brihaspathee.zeus.domain.entity.TransactionDetail;
-import com.brihaspathee.zeus.domain.repository.TransactionDetailRepository;
 import com.brihaspathee.zeus.dto.account.RawTransactionDto;
+import com.brihaspathee.zeus.dto.transaction.FileDetailDto;
 import com.brihaspathee.zeus.edi.models.common.FunctionalGroup;
 import com.brihaspathee.zeus.edi.models.common.Interchange;
 import com.brihaspathee.zeus.edi.models.enrollment.Transaction;
@@ -14,12 +14,14 @@ import com.brihaspathee.zeus.service.interfaces.FileDataProcessingService;
 import com.brihaspathee.zeus.service.interfaces.FunctionalGroupDetailService;
 import com.brihaspathee.zeus.service.interfaces.InterchangeDetailService;
 import com.brihaspathee.zeus.service.interfaces.TransactionDetailService;
-import com.brihaspathee.zeus.web.model.FileDetailDto;
+import com.brihaspathee.zeus.test.ZeusTransactionControlNumber;
+import com.brihaspathee.zeus.util.TransactionOrigServiceUtil;
+import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
 import com.brihaspathee.zeus.web.model.FileResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +44,11 @@ import java.util.Set;
 public class FileDataProcessingServiceImpl implements FileDataProcessingService {
 
     /**
+     * The spring environment instance
+     */
+    private final Environment environment;
+
+    /**
      * The EDIFileDataHelper class will parse the file information from the String and create the
      * Interchange Object
      */
@@ -61,6 +68,11 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
      * The service that will save the transaction details
      */
     private final TransactionDetailService transactionDetailService;
+
+    /**
+     * The utility class to generate the ztcn
+     */
+    private final TransactionOrigServiceUtil transactionOrigServiceUtil;
 
     /**
      * The kafka producer that will send the transaction to the kafka topic for other services to consume
@@ -92,10 +104,14 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
             transactions.stream().forEach(transaction -> {
                 // save each of the transactions within each functional group
                 try {
+                    ZeusTransactionControlNumber zeusTransactionControlNumber =
+                            transactionOrigServiceUtil.generateZtcn(fileDetailDto.getTransactionControlNumbers(), transaction);
+                    assert zeusTransactionControlNumber != null;
                     TransactionDetail transactionDetail = transactionDetailService.saveTransactionDetail(
                             functionalGroupDetail,
-                            transaction);
-                    sendTransactionToConsumers(fileDetailDto, transaction, transactionDetail);
+                            transaction, zeusTransactionControlNumber.getZtcn());
+                    sendTransactionToConsumers(fileDetailDto, transaction,
+                            transactionDetail, zeusTransactionControlNumber);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -118,7 +134,8 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
      */
     private void sendTransactionToConsumers(FileDetailDto fileDetailDto,
                                             Transaction transaction,
-                                            TransactionDetail transactionDetail) throws JsonProcessingException {
+                                            TransactionDetail transactionDetail,
+                                            ZeusTransactionControlNumber zeusTransactionControlNumber) throws JsonProcessingException {
         RawTransactionDto rawTransactionDto = RawTransactionDto.builder()
                 .transaction(transaction)
                 .ztcn(transactionDetail.getZeusTransactionControlNumber())
@@ -128,6 +145,7 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
                 .marketplaceTypeCode(fileDetailDto.getMarketplaceTypeCode())
                 .stateTypeCode(fileDetailDto.getStateTypeCode())
                 .tradingPartnerId(fileDetailDto.getTradingPartnerId())
+                .zeusTransactionControlNumber(zeusTransactionControlNumber)
                 .build();
         transactionPublisher.publishTransaction(rawTransactionDto);
     }

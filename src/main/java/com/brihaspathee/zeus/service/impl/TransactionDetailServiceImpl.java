@@ -40,15 +40,17 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
      * Save the details of the transaction
      * @param functionalGroupDetail
      * @param transaction
+     * @param ztcn
      * @return
      */
     @Override
     public TransactionDetail saveTransactionDetail(FunctionalGroupDetail functionalGroupDetail,
-                                                   Transaction transaction) throws JsonProcessingException {
+                                                   Transaction transaction,
+                                                   String ztcn) throws JsonProcessingException {
         String transactionAsString = objectMapper.writeValueAsString(transaction);
         TransactionDetail transactionDetail = TransactionDetail.builder()
                 .transactionControlNumber(transaction.getSt02())
-                .zeusTransactionControlNumber(ZeusRandomStringGenerator.randomString(15))
+                .zeusTransactionControlNumber(ztcn)
                 .functionalGroup(functionalGroupDetail)
                 .transactionData(transactionAsString)
                 .build();
