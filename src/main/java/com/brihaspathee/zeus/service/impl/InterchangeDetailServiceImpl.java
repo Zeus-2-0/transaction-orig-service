@@ -2,10 +2,9 @@ package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.domain.entity.InterchangeDetail;
 import com.brihaspathee.zeus.domain.repository.InterchangeDetailRepository;
+import com.brihaspathee.zeus.dto.transaction.FileDetailDto;
 import com.brihaspathee.zeus.edi.models.common.Interchange;
 import com.brihaspathee.zeus.service.interfaces.InterchangeDetailService;
-import com.brihaspathee.zeus.web.model.FileDetailDto;
-import com.brihaspathee.zeus.web.model.FileResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,15 +1,13 @@
 package com.brihaspathee.zeus.web.resource.impl;
 
 import com.brihaspathee.zeus.constants.ApiResponseConstants;
+import com.brihaspathee.zeus.dto.transaction.FileDetailDto;
 import com.brihaspathee.zeus.service.interfaces.FileDataProcessingService;
-import com.brihaspathee.zeus.web.model.FileDetailDto;
 import com.brihaspathee.zeus.web.model.FileResponseDto;
 import com.brihaspathee.zeus.web.model.TransactionDto;
 import com.brihaspathee.zeus.web.resource.interfaces.TransactionAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
