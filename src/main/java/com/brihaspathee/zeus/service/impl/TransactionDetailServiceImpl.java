@@ -41,16 +41,19 @@ public class TransactionDetailServiceImpl implements TransactionDetailService {
      * @param functionalGroupDetail
      * @param transaction
      * @param ztcn
+     * @param source
      * @return
      */
     @Override
     public TransactionDetail saveTransactionDetail(FunctionalGroupDetail functionalGroupDetail,
                                                    Transaction transaction,
-                                                   String ztcn) throws JsonProcessingException {
+                                                   String ztcn,
+                                                   String source) throws JsonProcessingException {
         String transactionAsString = objectMapper.writeValueAsString(transaction);
         TransactionDetail transactionDetail = TransactionDetail.builder()
                 .transactionControlNumber(transaction.getSt02())
                 .zeusTransactionControlNumber(ztcn)
+                .source(source)
                 .functionalGroup(functionalGroupDetail)
                 .transactionData(transactionAsString)
                 .build();

@@ -109,7 +109,8 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
                     assert zeusTransactionControlNumber != null;
                     TransactionDetail transactionDetail = transactionDetailService.saveTransactionDetail(
                             functionalGroupDetail,
-                            transaction, zeusTransactionControlNumber.getZtcn());
+                            transaction, zeusTransactionControlNumber.getZtcn(),
+                            "MARKETPLACE");
                     sendTransactionToConsumers(fileDetailDto, transaction,
                             transactionDetail, zeusTransactionControlNumber);
                 } catch (JsonProcessingException e) {
@@ -140,6 +141,7 @@ public class FileDataProcessingServiceImpl implements FileDataProcessingService 
                 .transaction(transaction)
                 .ztcn(transactionDetail.getZeusTransactionControlNumber())
                 .zfcn(fileDetailDto.getZeusFileControlNumber())
+                .source(transactionDetail.getSource())
                 .businessUnitTypeCode(fileDetailDto.getBusinessUnitTypeCode())
                 .lineOfBusinessTypeCode(fileDetailDto.getLineOfBusinessTypeCode())
                 .marketplaceTypeCode(fileDetailDto.getMarketplaceTypeCode())
