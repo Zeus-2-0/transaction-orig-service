@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `transactionorigdb`.`transaction` (
   `functional_group_sk` VARCHAR(36) NOT NULL COMMENT 'The functional group that the transaction belongs to',
   `transaction_control_number` VARCHAR(100) NOT NULL COMMENT 'The transaction control number received in the file',
   `ztcn` VARCHAR(100) NULL COMMENT 'The unique control number created for the transaction. This is created by the transaction origination service and can be used to track the transaction across services. This is a unique id that will not be repeated for any transactions',
+  `source` VARCHAR(50) NOT NULL COMMENT 'The source of the transaction',
   `transaction_data` LONGTEXT NOT NULL COMMENT 'The transaction data as JSON content',
   `created_date` DATETIME NULL COMMENT 'The date when the record was created',
   `updated_date` DATETIME NULL COMMENT 'The date when the record was updated',

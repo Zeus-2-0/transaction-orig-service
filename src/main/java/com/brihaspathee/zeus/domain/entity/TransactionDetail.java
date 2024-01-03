@@ -55,6 +55,12 @@ public class TransactionDetail {
     private String zeusTransactionControlNumber;
 
     /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * The transaction control number received for the transaction in the file
      */
     @Column(name = "transaction_control_number")
