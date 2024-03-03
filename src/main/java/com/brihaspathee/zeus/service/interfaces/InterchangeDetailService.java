@@ -15,5 +15,22 @@ import com.brihaspathee.zeus.edi.models.common.Interchange;
  */
 public interface InterchangeDetailService {
 
+    /**
+     * Save the interchange detail
+     * @param fileDetailDto
+     * @param interchange
+     * @return
+     */
     InterchangeDetail saveInterchangeDetail(FileDetailDto fileDetailDto, Interchange interchange);
+
+    /**
+     * Delete the interchange detail
+     * @param icn
+     */
+    void deleteInterchangeDetail(String icn);
+
+    /**
+     * Clean up the entire database
+     */
+    void deleteAll();
 }

@@ -6,7 +6,28 @@ servers:
 - url: http://localhost:8085
   description: Generated server url
 paths:
-  /api/v1/transaction/storage/{transactionId}:
+  /api/v1/trans-orig:
+    post:
+      tags:
+      - transaction-origination
+      description: Receive the details of the file with all the transactions in the
+        file
+      operationId: postFileDetails
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDetailDto'
+        required: true
+      responses:
+        "201":
+          description: Successfully received the details of the file and started to
+            process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZeusApiResponse'
+  /api/v1/trans-orig/{transactionId}:
     get:
       tags:
       - transaction-origination
@@ -25,8 +46,108 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ZeusApiResponse'
+  /api/v1/trans-orig/delete:
+    delete:
+      tags:
+      - transaction-origination
+      description: Delete all data
+      operationId: Delete all data
+      responses:
+        "204":
+          description: Data deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZeusApiResponse'
+  /api/v1/trans-orig/delete/{icn}:
+    delete:
+      tags:
+      - transaction-origination
+      description: Delete the data for the given ICN
+      operationId: cleanUp
+      parameters:
+      - name: icn
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Data for the given ICN successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZeusApiResponse'
 components:
   schemas:
+    FileDetailDto:
+      type: object
+      properties:
+        fileDetailSK:
+          type: string
+          format: uuid
+        zeusFileControlNumber:
+          type: string
+        interchangeControlNumber:
+          type: string
+        fileName:
+          type: string
+        fileReceivedDate:
+          type: string
+          format: date-time
+        tradingPartnerId:
+          type: string
+        senderId:
+          type: string
+        receiverId:
+          type: string
+        lineOfBusinessTypeCode:
+          type: string
+        businessUnitTypeCode:
+          type: string
+        marketplaceTypeCode:
+          type: string
+        stateTypeCode:
+          type: string
+        fileData:
+          type: string
+        transactionControlNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ZeusTransactionControlNumber'
+    TestAccountEntityCodes:
+      type: object
+      properties:
+        entityCodes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        memberEntityCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestMemberEntityCodes'
+    TestMemberEntityCodes:
+      type: object
+      properties:
+        exchangeMemberId:
+          type: string
+        entityCodes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    ZeusTransactionControlNumber:
+      type: object
+      properties:
+        tcn:
+          type: string
+        ztcn:
+          type: string
+        accountEntityCodes:
+          $ref: '#/components/schemas/TestAccountEntityCodes'
     ZeusApiResponse:
       type: object
       properties:
@@ -42,6 +163,7 @@ components:
           - 100 CONTINUE
           - 101 SWITCHING_PROTOCOLS
           - 102 PROCESSING
+          - 103 EARLY_HINTS
           - 103 CHECKPOINT
           - 200 OK
           - 201 CREATED
