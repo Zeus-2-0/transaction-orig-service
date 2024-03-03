@@ -76,4 +76,43 @@ public interface TransactionAPI {
     )
     @PostMapping
     ResponseEntity<ZeusApiResponse<FileResponseDto>> postFileDetails(@RequestBody FileDetailDto fileDetailDto) throws JsonProcessingException;
+
+    @Operation(
+            method = "DELETE",
+            description = "Delete the data for the given ICN",
+            tags = {"transaction-origination"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Data for the given ICN successfully deleted",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ZeusApiResponse.class))
+                            }
+                    )
+            }
+    )
+    @DeleteMapping("/delete/{icn}")
+    ResponseEntity<ZeusApiResponse<String>> cleanUp(@PathVariable("icn") String icn);
+
+    /**
+     * Clean up the entire db
+     * @return
+     */
+    @Operation(
+            operationId = "Delete all data",
+            method = "DELETE",
+            description = "Delete all data",
+            tags = {"transaction-origination"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Data deleted successfully",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = ZeusApiResponse.class))
+                    })
+    })
+    @DeleteMapping("/delete")
+    ResponseEntity<ZeusApiResponse<String>> cleanUp();
 }

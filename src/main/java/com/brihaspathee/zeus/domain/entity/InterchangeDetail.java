@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.domain.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -115,7 +116,7 @@ public class InterchangeDetail {
     /**
      * The set of functional groups associated with the interchange
      */
-    @OneToMany(mappedBy = "interchange")
+    @OneToMany(mappedBy = "interchange", cascade = CascadeType.REMOVE)
     private Set<FunctionalGroupDetail> functionalGroupSet;
 
     /**

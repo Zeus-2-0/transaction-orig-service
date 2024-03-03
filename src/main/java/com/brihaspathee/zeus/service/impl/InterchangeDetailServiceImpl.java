@@ -4,6 +4,7 @@ import com.brihaspathee.zeus.domain.entity.InterchangeDetail;
 import com.brihaspathee.zeus.domain.repository.InterchangeDetailRepository;
 import com.brihaspathee.zeus.dto.transaction.FileDetailDto;
 import com.brihaspathee.zeus.edi.models.common.Interchange;
+import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import com.brihaspathee.zeus.service.interfaces.InterchangeDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,11 @@ public class InterchangeDetailServiceImpl implements InterchangeDetailService {
     private final InterchangeDetailRepository repository;
 
     /**
+     * Payload tracker helper instance
+     */
+    private final PayloadTrackerHelper payloadTrackerHelper;
+
+    /**
      * Saves the interchange detail
      * @param interchange
      * @return
@@ -51,5 +57,24 @@ public class InterchangeDetailServiceImpl implements InterchangeDetailService {
                 .build();
         interchangeDetail = repository.save(interchangeDetail);
         return interchangeDetail;
+    }
+
+    /**
+     * Delete the interchange detail
+     * @param icn
+     */
+    @Override
+    public void deleteInterchangeDetail(String icn) {
+        InterchangeDetail interchangeDetail = repository.findByInterchangeControlNumber(icn).orElseThrow();
+        repository.delete(interchangeDetail);
+    }
+
+    /**
+     * Delete all data
+     */
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+        payloadTrackerHelper.deleteAll();
     }
 }

@@ -4,6 +4,7 @@ import com.brihaspathee.zeus.domain.entity.InterchangeDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -17,4 +18,11 @@ import java.util.UUID;
  */
 @Repository
 public interface InterchangeDetailRepository extends JpaRepository<InterchangeDetail, UUID> {
+
+    /**
+     * Find the data using ICN
+     * @param icn
+     * @return
+     */
+    Optional<InterchangeDetail> findByInterchangeControlNumber(String icn);
 }

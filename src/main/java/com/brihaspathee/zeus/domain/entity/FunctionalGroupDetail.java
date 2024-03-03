@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.domain.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -87,7 +88,7 @@ public class FunctionalGroupDetail {
     /**
      * The set of transactions present in the functional group
      */
-    @OneToMany(mappedBy = "functionalGroup")
+    @OneToMany(mappedBy = "functionalGroup", cascade = CascadeType.REMOVE)
     private Set<TransactionDetail> transactions;
 
     /**
