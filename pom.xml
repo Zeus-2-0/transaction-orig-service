@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.brihaspathee.zeus</groupId>
     <artifactId>transaction-orig-service</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>Transaction Origination Service</name>
     <description>Service that creates individual transactions from the file data</description>
     <url>http://www.brihaspathee.com</url>
@@ -31,7 +31,7 @@
         <!--        <developerConnection>scm:git:ssh://github.com:Zeus-2-0/reference-data-service.git</developerConnection>-->
         <developerConnection>scm:git:git@github.com:Zeus-2-0/transaction-orig-service.git</developerConnection>
         <url>scm:git:http://github.com/Zeus-2-0/transaction-orig-service</url>
-        <tag>transaction-orig-service-1.0.0</tag>
+        <tag>transaction-orig-service-0.0.2</tag>
     </scm>
 
     <developers>
